@@ -4,19 +4,37 @@
 
 #include <cstdlib>
 #include <iostream>
-//see "general/pointers.cpp"
+// see "general/pointers.cpp"
 
-void output(int* memory, int size){
+
+void output(int* memory, size_t size){
     for(int ix = 0; ix < size; ix++){
         std::cout << "Element " << ix << ": " << memory[ix] << std::endl;
     }
 }
 
-void populate(int* arr, int size){
+void populate(int* arr, size_t size){
     for(int ix = 0; ix < size; ix++){
         std::cout << "Enter element " << ix << ": ";
         std::cin >> arr[ix];
     }
+}
+
+int find_max(const int* memory, size_t size){
+    int max = INT_MIN;
+    for(int ix = 0; ix < size; ix++){
+        if (memory[ix] > max){
+            max = memory[ix];
+        }
+    }
+
+    return max;
+}
+
+// really unsafe! please do not do this ever again
+// only for demonstration!
+void alter(int* memory, int position, int value){
+    memory[position] = value;
 }
 
 int cstyle(){
@@ -38,7 +56,11 @@ int cstyle(){
 
         // we allocated memory, now we need to do something
         // with it
+        populate(memory, size);
+        std::cout << "Max number: " << find_max(memory, size) << std::endl;
+        alter(memory, 1, 255);
 
-
+        // free memory so or it will leak
+        free(memory);
     }
 }
